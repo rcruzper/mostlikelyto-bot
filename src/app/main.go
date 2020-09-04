@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/joho/godotenv"
+	"mostlikelyto/src/app/bootstrap"
 	"mostlikelyto/src/infrastructure/persistence/mysql/database"
 	"os"
 )
@@ -27,4 +28,6 @@ func main() {
 
 	database.MigrateDatabase(db)
 
+	app := bootstrap.New(db)
+	app.Start()
 }
