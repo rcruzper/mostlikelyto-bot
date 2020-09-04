@@ -3,6 +3,9 @@ package bootstrap
 import (
 	"database/sql"
 	tb "gopkg.in/tucnak/telebot.v2"
+	"mostlikelyto/src/actions"
+	"mostlikelyto/src/app/handler"
+	"mostlikelyto/src/infrastructure/persistence/mysql/repository"
 	"os"
 	"time"
 )
@@ -20,6 +23,9 @@ func New(conn *sql.DB) *App {
 func (app *App) Start() {
 	teleBot := app.initTeleBot()
 
+	appHandler := handler.New(teleBot, app.initActions())
+	teleBot.Handle("/poll", appHandler.CreatePoll)
+
 	teleBot.Start()
 }
 
@@ -34,4 +40,13 @@ func (app *App) initTeleBot() *tb.Bot {
 	}
 
 	return teleBot
+}
+
+func (app *App) initActions() *handler.Actions {
+	questionRepository := repository.NewMysqlQuestionRepository(app.conn)
+	createPoll := actions.NewCreatePoll(questionRepository)
+
+	return &handler.Actions{
+		CreatePoll: createPoll,
+	}
 }
