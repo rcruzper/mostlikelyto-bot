@@ -1,11 +1,11 @@
-package mysql_test
+package repository_test
 
 import (
 	"errors"
 	"github.com/stretchr/testify/assert"
 	"gopkg.in/DATA-DOG/go-sqlmock.v1"
 	"mostlikelyto/src/domain"
-	repository "mostlikelyto/src/infrastructure/repository/question/mysql"
+	repository2 "mostlikelyto/src/infrastructure/persistence/mysql/repository"
 	"testing"
 )
 
@@ -15,7 +15,7 @@ func TestMysqlQuestionRepository(t *testing.T) {
 		t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
 	}
 
-	questionRepository := repository.NewMysqlQuestionRepository(db)
+	questionRepository := repository2.NewMysqlQuestionRepository(db)
 	query := "SELECT title FROM question"
 
 	t.Run("should fail when query fails", func(t *testing.T) {
