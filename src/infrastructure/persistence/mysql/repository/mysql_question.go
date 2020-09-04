@@ -3,6 +3,8 @@ package repository
 import (
 	"database/sql"
 	"log"
+
+	//"log"
 	"mostlikelyto/src/domain"
 )
 
@@ -18,7 +20,7 @@ func (r *mysqlQuestionRepository) FindAll() (questions []domain.Question, err er
 	query := "SELECT title FROM question"
 	results, err := r.Conn.Query(query)
 	if err != nil {
-		log.Fatalf("error trying to execute query.. %v", err)
+		log.Printf("error trying to execute query.. %v", err)
 		return nil, err
 	}
 
