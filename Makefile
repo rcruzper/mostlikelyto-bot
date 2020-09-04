@@ -1,8 +1,11 @@
 test:
 	go test ./... -v
 
-compile: test
-	CGO_ENABLED=0 GOARCH=arm GOOS=linux go build -a -installsuffix cgo -o mostlikelyto main.go
+compile-arm: test
+	CGO_ENABLED=0 GOARCH=arm GOOS=linux go build -a -installsuffix cgo -o app src/app/main.go
+
+compile-macos: test
+	CGO_ENABLED=0 go build -a -installsuffix cgo -o app src/app/main.go
 
 clean:
 	@docker rm mariadb-mostlikelyto -f
